@@ -23,25 +23,6 @@ def get_labels():
     return labels
 
 def run_classification(labels):
-    """Stream images off the camera and process them."""
-    
-    sendToAddress = "192.168.0.20"
-    sendToPort = 7000
-    oscName = "/AAAA"
-    
-    client = udp_client.SimpleUDPClient(sendToAddress,sendToPort)
-    
-    
-    
-    
-    
-    camera = PiCamera()
-    camera.resolution = (1280, 720)
-    camera.framerate = 10
-    raw_capture = PiRGBArray(camera, size=(1280, 720))
-
-    # Warmup...
-    time.sleep(2)
 
     # Unpersists graph from file
     with tf.gfile.FastGFile('retrained_graph.pb', 'rb') as fin:
@@ -58,12 +39,7 @@ def run_classification(labels):
                     raw_capture, format='bgr', use_video_port=True
                 )
             ):
-            # Get the numpy version of the image.
-            #image2 = cv2.resize(image, (224, 224))  错误的代码
-            #image2 = np.asarray(cv2.GetMat(image))  错误的代码
-            #f_x = 224/1280
-            #f_y = 224/720
-            #image2  = cv2.resize(image.array,None,fx=f_x,fy=f_y,interpolation = cv2.INTER_CUBIC)  可以替换的代码
+
             image2 = cv2.resize(image.array, (224, 224))
             decoded_image = image2.reshape(1, 224, 224, 3)
 
@@ -82,12 +58,35 @@ def run_classification(labels):
 
             print("%s (%.2f%%)" % (predicted_label, max_value * 100))
             
-            message = [max_index,predicted_label,max_value]
-            client.send_message(oscName,message)
+            messages = [max_index, predicted_label, max_value]
+            send_osc_message(messages)
             # Reset the buffer so we're ready for the next one.
             raw_capture.truncate(0)
             if key ==ord("q"):
                 break
+def this_is_entrance():
+    """Stream images off the camera and process them."""
+    camera = PiCamera()
+    camera.resolution = (1280, 720)
+    camera.framerate = 10
+    raw_capture = PiRGBArray(camera, size=(1280, 720))
+    # Warmup...
+    time.sleep(2)
+    for _, frame in enumerate (
+            camera.capture_continuous(
+                raw_capture, format='bgr', use_video_port=True
+            )
+    ):
+        cv2.imshow("图片预览窗口", image.array)
+
+
+def send_osc_message(messages):
+    address = "192.168.0.20"
+    port = 7000
+    osc_name = "/AAAA"
+    client = udp_client.SimpleUDPClient(address, port)
+    client.send_message(osc_name, messages)
 
 if __name__ == '__main__':
-    run_classification(get_labels())
+    this_is_entrance()
+
