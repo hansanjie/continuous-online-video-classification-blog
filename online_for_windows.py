@@ -12,7 +12,7 @@ from pythonosc import osc_message_builder
 from pythonosc import udp_client
 
 import cv2
-
+import numpy as np
 
 
 def get_labels():
@@ -59,8 +59,9 @@ def run_classification(labels):
                 )
             ):
             # Get the numpy version of the image.
-            image2 = cv2.resize(image,(224,224))
-            decoded_image = image2.array.reshape(1,224,224,3)
+            #image2 = cv2.resize(image, (224, 224))
+            image2 = np.asarray(cv2.GetMat(image))
+            decoded_image = image2.array.reshape(1, 224, 224, 3)
 
             cv2.imshow("Frame",image.array)
             key = cv2.waitKey(1) & 0xFF
