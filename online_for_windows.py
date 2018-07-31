@@ -36,9 +36,9 @@ def run_classification(labels):
     
     
     camera = PiCamera()
-    camera.resolution = (224, 224)
-    camera.framerate = 5
-    raw_capture = PiRGBArray(camera, size=(224, 224))
+    camera.resolution = (1280, 720)
+    camera.framerate = 10
+    raw_capture = PiRGBArray(camera, size=(1280, 720))
 
     # Warmup...
     time.sleep(2)
@@ -59,7 +59,8 @@ def run_classification(labels):
                 )
             ):
             # Get the numpy version of the image.
-            decoded_image = image.array.reshape(1,224,224,3)
+            image2 = cv2.resize(image,(224,224))
+            decoded_image = image2.array.reshape(1,224,224,3)
 
             cv2.imshow("Frame",image.array)
             key = cv2.waitKey(1) & 0xFF
