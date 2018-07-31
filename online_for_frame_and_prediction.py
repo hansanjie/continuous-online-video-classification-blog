@@ -67,9 +67,9 @@ def run_classification(labels):
 def this_is_entrance():
     """Stream images off the camera and process them."""
     camera = PiCamera()
-    camera.resolution = (800, 600)
+    camera.resolution = (640, 480)
     camera.framerate = 10
-    raw_capture = PiRGBArray(camera, size=(800, 600))
+    raw_capture = PiRGBArray(camera, size=(640, 480))
     # Warmup...
     time.sleep(2)
     for _, frame in enumerate (
@@ -78,6 +78,7 @@ def this_is_entrance():
             )
     ):
         cv2.imshow("图片预览窗口", frame.array)
+        raw_capture.truncate(0)
 
 
 def send_osc_message(messages):
