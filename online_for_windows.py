@@ -64,7 +64,7 @@ def run_classification(labels):
             f_x = 224/1280
             f_y = 224/720
             image2  = cv2.resize(image.array,None,fx=f_x,fy=f_y,interpolation = cv2.INTER_CUBIC)
-            decoded_image = image2.array.reshape(1, 224, 224, 3)
+            decoded_image = image2.reshape(1, 224, 224, 3)
 
             cv2.imshow("Frame",image.array)
             key = cv2.waitKey(1) & 0xFF
