@@ -67,9 +67,9 @@ def run_classification(labels):
 def this_is_entrance():
     """Stream images off the camera and process them."""
     camera = PiCamera()
-    camera.resolution = (1280, 720)
+    camera.resolution = (800, 600)
     camera.framerate = 10
-    raw_capture = PiRGBArray(camera, size=(1280, 720))
+    raw_capture = PiRGBArray(camera, size=(800, 600))
     # Warmup...
     time.sleep(2)
     for _, frame in enumerate (
