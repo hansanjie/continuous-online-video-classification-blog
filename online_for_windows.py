@@ -61,7 +61,7 @@ def run_classification(labels):
             # Get the numpy version of the image.
             decoded_image = image.array.reshape(1,224,224,3)
 
-            cv2.imshow("Frame",decoded_image)
+            cv2.imshow("Frame",image.array)
             key = cv2.waitKey(1) & 0xFF
             # Make the prediction. Big thanks to this SO answer:
             # http://stackoverflow.com/questions/34484148/feeding-image-data-in-tensorflow-for-transfer-learning
