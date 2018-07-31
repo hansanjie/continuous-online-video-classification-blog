@@ -77,7 +77,7 @@ def this_is_entrance():
                 raw_capture, format='bgr', use_video_port=True
             )
     ):
-        cv2.imshow("图片预览窗口", image.array)
+        cv2.imshow("图片预览窗口", frame.array)
 
 
 def send_osc_message(messages):
