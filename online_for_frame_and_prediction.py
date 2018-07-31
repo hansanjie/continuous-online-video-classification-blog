@@ -70,7 +70,7 @@ def this_is_entrance():
         camera.resolution = (640,480)
         camera.framerate = 24
         camera.start_preview()
-        sleep(5)
+        time.sleep(5)
 
 
 def send_osc_message(messages):
