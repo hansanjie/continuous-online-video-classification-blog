@@ -1,0 +1,15 @@
+x phoneback
+x phoneedge
+x phonefront
+x phonewakeup
+others
+shoebackside
+shoebottom
+shoefront
+shoeinnerside
+shoeoutside
+shoetop
+watchback
+watchchain
+watchside
+watchtop
