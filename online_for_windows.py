@@ -60,7 +60,8 @@ def run_classification(labels):
             ):
             # Get the numpy version of the image.
             #image2 = cv2.resize(image, (224, 224))
-            image2 = np.asarray(cv2.GetMat(image))
+            #image2 = np.asarray(cv2.GetMat(image))
+            image2  = cv2.resize(image,new_shape=(224, 224, 3))
             decoded_image = image2.array.reshape(1, 224, 224, 3)
 
             cv2.imshow("Frame",image.array)
