@@ -83,7 +83,7 @@ def run_classification(labels):
             print("%s (%.2f%%)" % (predicted_label, max_value * 100))
             
             message = [max_index,predicted_label,max_value]
-            client.send_message(oscName,message)
+            client.send_message(oscName, message)
             # Reset the buffer so we're ready for the next one.
             raw_capture.truncate(0)
             if key ==ord("q"):

@@ -72,12 +72,12 @@ def this_is_entrance():
     raw_capture = PiRGBArray(camera, size=(640, 480))
     # Warmup...
     time.sleep(2)
-    for _, frame in enumerate (
+    for ret, frame in enumerate (
             camera.capture_continuous(
                 raw_capture, format='bgr', use_video_port=True
             )
     ):
-        cv2.imshow("图片预览窗口", frame.array)
+        cv2.imshow("capture_show", frame)
         raw_capture.truncate(0)
 
 
