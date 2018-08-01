@@ -18,8 +18,10 @@ import threading
 
 
 #设置全局变量，用于监控预测程序是否运行
+global is_run_prediction
 is_run_prediction = False
-the_output_messages = ""
+global the_output_messages
+the_output_messages = "预览信息"
 
 def get_labels():
     """Get a list of labels so we can see if it's an ad or not."""
