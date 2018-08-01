@@ -92,8 +92,8 @@ def this_is_entrance():
             #判断mthread是否有返回值
             #如果没有，则重启一个线程
             #如果有启动，则将返回值打印到图像上
-            print(global_var.the_output_messages)
-            print(global_var.is_run_prediction)
+#            print(global_var.the_output_messages)
+#            print(global_var.is_run_prediction)
             key = cv2.waitKey(1) & 0xFF
             rawCapture.truncate(0)
             if key ==ord("q"):
