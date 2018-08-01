@@ -61,6 +61,8 @@ def this_is_entrance():
     with  PiCamera() as camera:
         camera.resolution = (320, 240)
         camera.framerate = 24
+        camera.hflip = True
+        camera.vflip = True
         rawCapture = PiRGBArray(camera, size=(320, 240))
         time.sleep(0.1)
         #开启一个线程用于预测
