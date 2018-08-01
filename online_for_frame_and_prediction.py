@@ -18,10 +18,12 @@ import threading
 
 
 #设置全局变量，用于监控预测程序是否运行
-global is_run_prediction
-global the_output_messages
-global labels
 
+
+class global_var:
+    global is_run_prediction
+    global the_output_messages
+    global labels
 
 def get_labels():
     """Get a list of labels so we can see if it's an ad or not."""
@@ -81,7 +83,7 @@ def this_is_entrance():
             cv2.imshow("Frame", image)
 #            prediction_event =threading.Event()
             #print(prediction_event.isSet)
-            if is_run_prediction is False:
+            if global_var.is_run_prediction.is_run_prediction is False:
                 print("尚未进行预测")
                 mthead = threading.Thread(target=frame_for_prediction,args=(frame,))
                 mthead.start()
@@ -90,8 +92,8 @@ def this_is_entrance():
             #判断mthread是否有返回值
             #如果没有，则重启一个线程
             #如果有启动，则将返回值打印到图像上
-            print(the_output_messages)
-            print(is_run_prediction)
+            print(global_var.is_run_prediction.the_output_messages)
+            print(global_var.is_run_prediction.is_run_prediction)
             key = cv2.waitKey(1) & 0xFF
             rawCapture.truncate(0)
             if key ==ord("q"):
@@ -102,11 +104,11 @@ def this_is_entrance():
 
 def frame_for_prediction(frame):
 
-    is_run_prediction = True
+    global_var.is_run_prediction = True
     print("开始预测")
     #prediction_event.set()
-    print(is_run_prediction)
-    the_output_messages = run_classification(labels,frame)
+    print(global_var.is_run_prediction)
+    global_var.the_output_messages = run_classification(labels,frame)
     #is_run_prediction = False
 
 def send_osc_message(messages):
