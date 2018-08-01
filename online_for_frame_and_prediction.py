@@ -73,7 +73,7 @@ def this_is_entrance():
             if mthread.is_alive() :
                 return
             else:
-                mthread.start(image)
+                mthread.start()
             #判断mthread是否启动
             #判断mthread是否有返回值
             #如果没有，则重启一个线程
