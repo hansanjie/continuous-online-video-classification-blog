@@ -16,7 +16,7 @@ import numpy as np
 
 import threading
 
-mthread=threading.Thread(target=frame_for_prediction,args=(frame))
+mthread=threading.Thread(target=frame_for_prediction, args=(frame,))
 prediction_event =threading.Event()
 
 def get_labels():
