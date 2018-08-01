@@ -59,10 +59,9 @@ def run_classification(labels,frame):
 def this_is_entrance():
     """Stream images off the camera and process them."""
     with  PiCamera() as camera:
-        camera.resolution = (640, 480)
+        camera.resolution = (320, 240)
         camera.framerate = 24
-        camera.start_preview()
-        rawCapture = PiRGBArray(camera, size=(640, 480))
+        rawCapture = PiRGBArray(camera, size=(320, 240))
         time.sleep(0.1)
         #开启一个线程用于预测
 
