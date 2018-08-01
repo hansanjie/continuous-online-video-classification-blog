@@ -64,7 +64,7 @@ def run_classification(labels,frame):
         print("预测结束了")
         #prediction_event.clear()
         #is_run_prediction = False
-    return messages
+        global_var.the_output_messages=messages;
 
 def this_is_entrance():
     """Stream images off the camera and process them."""
@@ -108,7 +108,7 @@ def frame_for_prediction(frame):
     print("开始预测")
     #prediction_event.set()
     print(global_var.is_run_prediction)
-    global_var.the_output_messages = run_classification(labels,frame)
+    run_classification(global_var.labels,frame)
     #is_run_prediction = False
 
 def send_osc_message(messages):
