@@ -17,7 +17,7 @@ import numpy as np
 import threading
 
 
-#prediction_event =threading.Event()
+prediction_event =threading.Event()
 
 def get_labels():
     """Get a list of labels so we can see if it's an ad or not."""
@@ -54,6 +54,7 @@ def run_classification(labels,frame):
         messages = [max_index, predicted_label, max_value]
         send_osc_message(messages)
         # Reset the buffer so we're ready for the next one.
+        prediction_event.clear()
         return messages
 
 def this_is_entrance():
@@ -69,14 +70,13 @@ def this_is_entrance():
 
         for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
             image = frame.array
-            cv2.imshow("Frame", image)
-            mthread = threading.Thread(target=frame_for_prediction, args=(frame,))
-            if mthread.is_alive() :
-                print ("预测正在运行中")
-                return
+            cv2.imshow("Frame", image)           
+            if prediction_event.is_set:
+                print("预测进行中")
             else:
-                print ("启动进程中")
-                mthread.start()
+                print("开始预测")
+                mthead = threading.Thread(target=frame_for_prediction,args=(frame,))
+                mthead.start()
             #判断mthread是否启动
             #判断mthread是否有返回值
             #如果没有，则重启一个线程
@@ -86,11 +86,12 @@ def this_is_entrance():
             rawCapture.truncate(0)
             if key ==ord("q"):
                 break
+        
 #        while True:
 #            time.sleep(5)
 
 def frame_for_prediction(frame):
-    #prediction_event.set()
+    prediction_event.set()
     return run_classification(get_labels(),frame)
 
 def send_osc_message(messages):
