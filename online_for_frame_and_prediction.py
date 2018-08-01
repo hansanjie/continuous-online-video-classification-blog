@@ -17,7 +17,8 @@ import numpy as np
 import threading
 
 
-prediction_event =threading.Event()
+#设置全局变量，用于监控预测程序是否运行
+is_run_prediction = False
 
 def get_labels():
     """Get a list of labels so we can see if it's an ad or not."""
@@ -35,7 +36,7 @@ def run_classification(labels,frame):
         _ = tf.import_graph_def(graph_def, name='')
 
     with tf.Session() as sess:
-        
+        print("运行到这里了，可喜可贺")
         # And capture continuously forever.
         softmax_tensor = sess.graph.get_tensor_by_name('final_result:0')
         image = cv2.resize(frame.array, (224, 224))
@@ -72,12 +73,13 @@ def this_is_entrance():
         for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
             image = frame.array
             cv2.imshow("Frame", image)
+#            prediction_event =threading.Event()
             #print(prediction_event.isSet)
-            if prediction_event.isSet is True:
-                print("开始预测")
+            if is_run_prediction is False:
+                print("尚未进行预测")
                 mthead = threading.Thread(target=frame_for_prediction,args=(frame,))
                 mthead.start()
-                mthead.join()
+                #mthead.join()
             #判断mthread是否启动
             #判断mthread是否有返回值
             #如果没有，则重启一个线程
@@ -92,8 +94,9 @@ def this_is_entrance():
 #            time.sleep(5)
 
 def frame_for_prediction(frame):
-    print("正在预测")
-    prediction_event.set()
+    is_run_prediction = True
+    print("开始预测")
+    #prediction_event.set()
     return run_classification(get_labels(),frame)
 
 def send_osc_message(messages):
