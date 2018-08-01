@@ -119,10 +119,10 @@ def send_osc_message(messages):
     client.send_message(osc_name, messages)
 
 if __name__ == '__main__':
-    the_output_messages = [] 
-    is_run_prediction = False
-    labels = get_labels()
-    print(is_run_prediction)
+    global_var.the_output_messages = [] 
+    global_var.is_run_prediction = False
+    global_var.labels = get_labels()
+    print(global_var.is_run_prediction)
     this_is_entrance()
     
 
