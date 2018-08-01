@@ -72,8 +72,8 @@ def this_is_entrance():
         for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
             image = frame.array
             cv2.imshow("Frame", image)
-            print(prediction_event.isSet)
-            if prediction_event.isSet is False:
+            #print(prediction_event.isSet)
+            if prediction_event.isSet is True:
                 print("开始预测")
                 mthead = threading.Thread(target=frame_for_prediction,args=(frame,))
                 mthead.start()
@@ -91,7 +91,7 @@ def this_is_entrance():
 #            time.sleep(5)
 
 def frame_for_prediction(frame):
-    prediction_event.set()
+    #prediction_event
     return run_classification(get_labels(),frame)
 
 def send_osc_message(messages):
