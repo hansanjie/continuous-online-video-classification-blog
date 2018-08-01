@@ -19,6 +19,7 @@ import threading
 
 #设置全局变量，用于监控预测程序是否运行
 is_run_prediction = False
+the_output_messages = ""
 
 def get_labels():
     """Get a list of labels so we can see if it's an ad or not."""
@@ -84,7 +85,7 @@ def this_is_entrance():
             #判断mthread是否有返回值
             #如果没有，则重启一个线程
             #如果有启动，则将返回值打印到图像上
-
+            print(the_output_messages)
             key = cv2.waitKey(1) & 0xFF
             rawCapture.truncate(0)
             if key ==ord("q"):
@@ -97,7 +98,7 @@ def frame_for_prediction(frame):
     is_run_prediction = True
     print("开始预测")
     #prediction_event.set()
-    return run_classification(get_labels(),frame)
+    the_output_messages = run_classification(get_labels(),frame)
 
 def send_osc_message(messages):
     address = "192.168.0.20"
