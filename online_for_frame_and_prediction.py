@@ -23,7 +23,7 @@ is_run_prediction = False
 global the_output_messages
 the_output_messages = []
 global labels
-labels = []
+labels =get_labels()
 
 def get_labels():
     """Get a list of labels so we can see if it's an ad or not."""
@@ -101,8 +101,7 @@ def this_is_entrance():
 #            time.sleep(5)
 
 def frame_for_prediction(frame):
-    if labels.count==0:
-        labels =get_labels()
+
     is_run_prediction = True
     print("开始预测")
     #prediction_event.set()
