@@ -70,8 +70,18 @@ def this_is_entrance():
         camera.resolution = (640, 480)
         camera.framerate = 24
         camera.start_preview()
-        while True:
-            time.sleep(5)
+        rawCapture = PiRGBArray(camera, size=(640, 480))
+        time.sleep(0.1)
+        for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
+            image = frame.array
+            cv2.imshow("Frame", image)
+            key = cv2.waitKey(1) & 0xFF
+            print image
+            rawCapture.truncate(0)
+            if key ==ord("q"):
+                break
+#        while True:
+#            time.sleep(5)
 
 
 def send_osc_message(messages):
