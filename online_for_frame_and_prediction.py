@@ -23,7 +23,7 @@ is_run_prediction = False
 global the_output_messages
 the_output_messages = []
 global labels
-labels =get_labels()
+
 
 def get_labels():
     """Get a list of labels so we can see if it's an ad or not."""
@@ -116,5 +116,6 @@ def send_osc_message(messages):
     client.send_message(osc_name, messages)
 
 if __name__ == '__main__':
+    labels = get_labels()
     this_is_entrance()
 
