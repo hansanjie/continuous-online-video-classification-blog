@@ -29,7 +29,7 @@ def get_labels():
     return labels
 
 def run_classification(labels,frame):
-
+    print("1、运行到这里了，可喜可贺")
     # Unpersists graph from file
     with tf.gfile.FastGFile('retrained_graph.pb', 'rb') as fin:
         graph_def = tf.GraphDef()
@@ -37,7 +37,7 @@ def run_classification(labels,frame):
         _ = tf.import_graph_def(graph_def, name='')
 
     with tf.Session() as sess:
-        print("运行到这里了，可喜可贺")
+        print("2、运行到这里了，可喜可贺")
         # And capture continuously forever.
         softmax_tensor = sess.graph.get_tensor_by_name('final_result:0')
         image = cv2.resize(frame.array, (224, 224))
