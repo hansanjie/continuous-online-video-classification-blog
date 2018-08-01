@@ -65,6 +65,7 @@ def run_classification(labels,frame):
         #prediction_event.clear()
         #is_run_prediction = False
         global_var.the_output_messages=messages;
+        global_var.is_run_prediction =False
 
 def this_is_entrance():
     """Stream images off the camera and process them."""
