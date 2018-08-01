@@ -73,7 +73,7 @@ def this_is_entrance():
             image = frame.array
             cv2.imshow("Frame", image)           
             if prediction_event.is_set:
-                print("预测进行中")
+                return
             else:
                 print("开始预测")
                 mthead = threading.Thread(target=frame_for_prediction,args=(frame,))
