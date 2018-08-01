@@ -71,7 +71,8 @@ def this_is_entrance():
 
         for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
             image = frame.array
-            cv2.imshow("Frame", image)           
+            cv2.imshow("Frame", image)
+            print(prediction_event.isSet)
             if prediction_event.isSet is False:
                 print("开始预测")
                 mthead = threading.Thread(target=frame_for_prediction,args=(frame,))
