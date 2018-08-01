@@ -61,6 +61,7 @@ def run_classification(labels,frame):
         # Reset the buffer so we're ready for the next one.
         print("预测结束了")
         prediction_event.clear()
+    is_run_prediction = False
     return messages
 
 def this_is_entrance():
@@ -102,6 +103,7 @@ def frame_for_prediction(frame):
     print("开始预测")
     #prediction_event.set()
     the_output_messages = run_classification(get_labels(),frame)
+    is_run_prediction = False
 
 def send_osc_message(messages):
     address = "192.168.0.20"
