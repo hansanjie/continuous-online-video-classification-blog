@@ -21,7 +21,8 @@ import threading
 global is_run_prediction
 is_run_prediction = False
 global the_output_messages
-the_output_messages = "预览信息"
+the_output_messages = []
+global labels
 
 def get_labels():
     """Get a list of labels so we can see if it's an ad or not."""
@@ -99,10 +100,12 @@ def this_is_entrance():
 #            time.sleep(5)
 
 def frame_for_prediction(frame):
+    if labels is None:
+        labels =get_labels()
     is_run_prediction = True
     print("开始预测")
     #prediction_event.set()
-    the_output_messages = run_classification(get_labels(),frame)
+    the_output_messages = run_classification(labels,frame)
     is_run_prediction = False
 
 def send_osc_message(messages):
