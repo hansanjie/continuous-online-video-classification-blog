@@ -77,6 +77,7 @@ def this_is_entrance():
 
         for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
             image = frame.array
+            print(is_run_prediction)
             cv2.imshow("Frame", image)
 #            prediction_event =threading.Event()
             #print(prediction_event.isSet)
@@ -104,6 +105,7 @@ def frame_for_prediction(frame):
     is_run_prediction = True
     print("开始预测")
     #prediction_event.set()
+    print(is_run_prediction)
     the_output_messages = run_classification(labels,frame)
     #is_run_prediction = False
 
@@ -118,5 +120,7 @@ if __name__ == '__main__':
     the_output_messages = [] 
     is_run_prediction = False
     labels = get_labels()
+    print(is_run_prediction)
     this_is_entrance()
+    
 
