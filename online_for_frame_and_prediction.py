@@ -61,7 +61,7 @@ def run_classification(labels,frame):
         # Reset the buffer so we're ready for the next one.
         print("预测结束了")
         #prediction_event.clear()
-        is_run_prediction = False
+        #is_run_prediction = False
     return messages
 
 def this_is_entrance():
