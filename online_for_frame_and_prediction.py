@@ -76,7 +76,6 @@ def this_is_entrance():
             image = frame.array
             cv2.imshow("Frame", image)
             key = cv2.waitKey(1) & 0xFF
-            print image
             rawCapture.truncate(0)
             if key ==ord("q"):
                 break
