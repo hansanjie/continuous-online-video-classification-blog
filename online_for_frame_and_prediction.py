@@ -19,9 +19,7 @@ import threading
 
 #设置全局变量，用于监控预测程序是否运行
 global is_run_prediction
-is_run_prediction = False
 global the_output_messages
-the_output_messages = []
 global labels
 
 
@@ -117,6 +115,8 @@ def send_osc_message(messages):
     client.send_message(osc_name, messages)
 
 if __name__ == '__main__':
+    the_output_messages = [] 
+    is_run_prediction = False
     labels = get_labels()
     this_is_entrance()
 
