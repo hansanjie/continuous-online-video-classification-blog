@@ -65,10 +65,11 @@ def this_is_entrance():
         rawCapture = PiRGBArray(camera, size=(640, 480))
         time.sleep(0.1)
         #开启一个线程用于预测
-        mthread = threading.Thread(target=frame_for_prediction, args=(frame,))
+
         for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
             image = frame.array
             cv2.imshow("Frame", image)
+            mthread = threading.Thread(target=frame_for_prediction, args=(image,))
             if mthread.is_alive() :
                 return
             else:
