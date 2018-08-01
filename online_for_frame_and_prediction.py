@@ -14,6 +14,10 @@ from pythonosc import udp_client
 import cv2
 import numpy as np
 
+import threading
+
+mthread=threading.Thread(target=frame_for_prediction,args=(frame))
+prediction_event =threading.Event()
 
 def get_labels():
     """Get a list of labels so we can see if it's an ad or not."""
@@ -22,7 +26,7 @@ def get_labels():
         #print(labels)
     return labels
 
-def run_classification(labels):
+def run_classification(labels,frame):
 
     # Unpersists graph from file
     with tf.gfile.FastGFile('retrained_graph.pb', 'rb') as fin:
@@ -34,36 +38,24 @@ def run_classification(labels):
         
         # And capture continuously forever.
         softmax_tensor = sess.graph.get_tensor_by_name('final_result:0')
-        for _, image in enumerate(
-                camera.capture_continuous(
-                    raw_capture, format='bgr', use_video_port=True
-                )
-            ):
+        image = cv2.resize(frame.array, (224, 224))
+        decoded_image = image.reshape(1, 224, 224, 3)
+        predictions = sess.run(softmax_tensor, {'Placeholder:0': decoded_image})
+        prediction = predictions[0]
 
-            image2 = cv2.resize(image.array, (224, 224))
-            decoded_image = image2.reshape(1, 224, 224, 3)
+        # Get the highest confidence category.
+        prediction = prediction.tolist()
+        max_value = max(prediction)
+        max_index = prediction.index(max_value)
+        predicted_label = labels[max_index]
+        #在命令行打印识别到的信息
+        print("%s (%.2f%%)" % (predicted_label, max_value * 100))
 
-            cv2.imshow("Frame",image.array)
-            key = cv2.waitKey(1) & 0xFF
-            # Make the prediction. Big thanks to this SO answer:
-            # http://stackoverflow.com/questions/34484148/feeding-image-data-in-tensorflow-for-transfer-learning
-            predictions = sess.run(softmax_tensor, {'Placeholder:0': decoded_image})
-            prediction = predictions[0]
+        messages = [max_index, predicted_label, max_value]
+        send_osc_message(messages)
+        # Reset the buffer so we're ready for the next one.
+        return messages
 
-            # Get the highest confidence category.
-            prediction = prediction.tolist()
-            max_value = max(prediction)
-            max_index = prediction.index(max_value)
-            predicted_label = labels[max_index]
-
-            print("%s (%.2f%%)" % (predicted_label, max_value * 100))
-            
-            messages = [max_index, predicted_label, max_value]
-            send_osc_message(messages)
-            # Reset the buffer so we're ready for the next one.
-            raw_capture.truncate(0)
-            if key ==ord("q"):
-                break
 def this_is_entrance():
     """Stream images off the camera and process them."""
     with  PiCamera() as camera:
@@ -75,6 +67,15 @@ def this_is_entrance():
         for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
             image = frame.array
             cv2.imshow("Frame", image)
+            if mthread.is_alive() :
+                return
+            else:
+                mthread.start(image)
+            #判断mthread是否启动
+            #判断mthread是否有返回值
+            #如果没有，则重启一个线程
+            #如果有启动，则将返回值打印到图像上
+
             key = cv2.waitKey(1) & 0xFF
             rawCapture.truncate(0)
             if key ==ord("q"):
@@ -82,6 +83,9 @@ def this_is_entrance():
 #        while True:
 #            time.sleep(5)
 
+def frame_for_prediction(frame):
+    #prediction_event.set()
+    return run_classification(get_labels(),frame)
 
 def send_osc_message(messages):
     address = "192.168.0.20"
