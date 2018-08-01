@@ -16,8 +16,8 @@ import numpy as np
 
 import threading
 
-mthread=threading.Thread(target=frame_for_prediction, args=(frame,))
-prediction_event =threading.Event()
+
+#prediction_event =threading.Event()
 
 def get_labels():
     """Get a list of labels so we can see if it's an ad or not."""
@@ -64,6 +64,8 @@ def this_is_entrance():
         camera.start_preview()
         rawCapture = PiRGBArray(camera, size=(640, 480))
         time.sleep(0.1)
+        #开启一个线程用于预测
+        mthread = threading.Thread(target=frame_for_prediction, args=(frame,))
         for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
             image = frame.array
             cv2.imshow("Frame", image)
