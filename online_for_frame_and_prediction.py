@@ -67,7 +67,7 @@ def run_classification(labels):
 def this_is_entrance():
     """Stream images off the camera and process them."""
     with  PiCamera() as camera:
-        while true:
+        while True:
             camera.resolution = (640, 480)
             camera.framerate = 24
             camera.start_preview()
