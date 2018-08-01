@@ -69,7 +69,7 @@ def this_is_entrance():
         for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
             image = frame.array
             cv2.imshow("Frame", image)
-            mthread = threading.Thread(target=frame_for_prediction, args=(image,))
+            mthread = threading.Thread(target=frame_for_prediction, args=(frame,))
             if mthread.is_alive() :
                 return
             else:
