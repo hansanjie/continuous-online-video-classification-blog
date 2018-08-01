@@ -72,8 +72,10 @@ def this_is_entrance():
             cv2.imshow("Frame", image)
             mthread = threading.Thread(target=frame_for_prediction, args=(frame,))
             if mthread.is_alive() :
+                print ("预测正在运行中")
                 return
             else:
+                print ("启动进程中")
                 mthread.start()
             #判断mthread是否启动
             #判断mthread是否有返回值
