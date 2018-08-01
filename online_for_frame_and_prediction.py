@@ -54,6 +54,7 @@ def run_classification(labels,frame):
         messages = [max_index, predicted_label, max_value]
         send_osc_message(messages)
         # Reset the buffer so we're ready for the next one.
+        print("预测结束了")
         prediction_event.clear()
         return messages
 
