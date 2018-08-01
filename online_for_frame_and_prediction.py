@@ -62,7 +62,7 @@ def run_classification(labels,frame):
         send_osc_message(messages)
         # Reset the buffer so we're ready for the next one.
         print("预测结束了")
-        prediction_event.clear()
+        #prediction_event.clear()
     is_run_prediction = False
     return messages
 
@@ -92,6 +92,7 @@ def this_is_entrance():
             #如果没有，则重启一个线程
             #如果有启动，则将返回值打印到图像上
             print(the_output_messages)
+            print(is_run_prediction)
             key = cv2.waitKey(1) & 0xFF
             rawCapture.truncate(0)
             if key ==ord("q"):
