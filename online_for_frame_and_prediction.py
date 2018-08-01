@@ -83,7 +83,7 @@ def this_is_entrance():
             cv2.imshow("Frame", image)
 #            prediction_event =threading.Event()
             #print(prediction_event.isSet)
-            if global_var.is_run_prediction.is_run_prediction is False:
+            if global_var.is_run_prediction is False:
                 print("尚未进行预测")
                 mthead = threading.Thread(target=frame_for_prediction,args=(frame,))
                 mthead.start()
