@@ -77,6 +77,7 @@ def this_is_entrance():
                 print("开始预测")
                 mthead = threading.Thread(target=frame_for_prediction,args=(frame,))
                 mthead.start()
+                mthead.join()
             #判断mthread是否启动
             #判断mthread是否有返回值
             #如果没有，则重启一个线程
@@ -91,7 +92,8 @@ def this_is_entrance():
 #            time.sleep(5)
 
 def frame_for_prediction(frame):
-    #prediction_event
+    print("正在预测")
+    prediction_event.set()
     return run_classification(get_labels(),frame)
 
 def send_osc_message(messages):
