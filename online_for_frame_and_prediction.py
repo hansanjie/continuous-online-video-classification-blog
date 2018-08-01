@@ -79,7 +79,7 @@ def this_is_entrance():
 
         for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
             image = frame.array
-            print(is_run_prediction)
+            print(global_var.is_run_prediction)
             cv2.imshow("Frame", image)
 #            prediction_event =threading.Event()
             #print(prediction_event.isSet)
