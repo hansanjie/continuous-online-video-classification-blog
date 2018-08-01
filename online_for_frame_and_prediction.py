@@ -29,6 +29,7 @@ def get_labels():
     return labels
 
 def run_classification(labels,frame):
+    messages =[]
     print("1、运行到这里了，可喜可贺")
     # Unpersists graph from file
     with tf.gfile.FastGFile('retrained_graph.pb', 'rb') as fin:
@@ -58,7 +59,7 @@ def run_classification(labels,frame):
         # Reset the buffer so we're ready for the next one.
         print("预测结束了")
         prediction_event.clear()
-        return messages
+    return messages
 
 def this_is_entrance():
     """Stream images off the camera and process them."""
