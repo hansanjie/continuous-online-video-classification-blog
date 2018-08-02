@@ -81,10 +81,11 @@ def run_classification_from_cach_sess(frame):
     global_var.text_list.append(predicted_label)
     global_var.render_text_number += 1
     if global_var.render_text_number <19 :
-        cv2.putText(global_var.text_show,predicted_label,(20,12*global_var.render_text_number), global_var.font, 0.4,(255,255,255),1,cv2.LINE_AA)
+        cv2.putText(global_var.text_show,predicted_label,(20,13*global_var.render_text_number), global_var.font, 0.4,(255,255,255),1,cv2.LINE_AA)
     else:
         global_var.text_show =np.zeros((240,120,3),np.uint8)
-
+        for i in range(20):
+            cv2.putText(global_var.text_show,global_var.text_list[0-i],(20,13*(20-i)), global_var.font, 0.4,(255,255,255),1,cv2.LINE_AA)
     #cv2.addText(global_var.text_show,predicted_label,(10,10),global_var.font,color=(255,0,0),style=global_var.linetype)
     #cv2.addText(global_var.text_show,predicted_label,(10,10),global_var.font)
     
