@@ -28,7 +28,7 @@ class global_var:
     global fin
     global sess
     global text_show
-    
+    global render_text_number
     global linetype
     global font 
 
@@ -38,6 +38,7 @@ class global_var:
         global_var.the_output_messages = []
         global_var.is_run_prediction = False
         global_var.labels = get_labels()
+        global_var.render_text_number = 0
 
 def get_labels():
     """Get a list of labels so we can see if it's an ad or not."""
@@ -74,9 +75,11 @@ def run_classification_from_cach_sess(frame):
     # 在命令行打印识别到的信息
     print("%s (%.2f%%)" % (predicted_label, max_value * 100))
     messages = [max_index, predicted_label, max_value]
+    global_var.render_text_number += 1
+    number = global_var.render_text_number % 20
     #cv2.addText(global_var.text_show,predicted_label,(10,10),global_var.font,color=(255,0,0),style=global_var.linetype)
     #cv2.addText(global_var.text_show,predicted_label,(10,10),global_var.font)
-    cv2.putText(global_var.text_show,predicted_label,(10,10), global_var.font, 0.5,(255,255,255),2,cv2.LINE_AA)
+    cv2.putText(global_var.text_show,predicted_label,(10,10*number), global_var.font, 0.4,(255,255,255),2,cv2.LINE_AA)
 
     send_osc_message(messages)
     
