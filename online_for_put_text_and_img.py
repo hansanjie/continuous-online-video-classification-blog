@@ -75,7 +75,9 @@ def run_classification_from_cach_sess(frame):
     print("%s (%.2f%%)" % (predicted_label, max_value * 100))
     messages = [max_index, predicted_label, max_value]
     #cv2.addText(global_var.text_show,predicted_label,(10,10),global_var.font,color=(255,0,0),style=global_var.linetype)
-    cv2.addText(global_var.text_show,predicted_label,(10,10),global_var.font)
+    #cv2.addText(global_var.text_show,predicted_label,(10,10),global_var.font)
+    cv2.putText(global_var.text_show,predicted_label,(10,100), global_var.font, 4,(255,255,255),2,cv2.LINE_AA)
+
     send_osc_message(messages)
     
     # Reset the buffer so we're ready for the next one.
