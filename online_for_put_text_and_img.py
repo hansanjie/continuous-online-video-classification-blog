@@ -153,6 +153,7 @@ def this_is_entrance():
         for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
             image = frame.array
             #print(image.shape,image.dtype)
+            cv2.rectangle(image,(80,60),(320,240),(55,255,155),3)
             combination_image = np.hstack((image,global_var.text_show))
             cv2.imshow("combination_image", combination_image)
             #cv2.imshow("Frame2", text_show)
