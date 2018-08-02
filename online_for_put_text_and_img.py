@@ -126,7 +126,7 @@ def this_is_entrance():
         for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
             image = frame.array
 
-            combination_image = np.hstack(frame,text_show)
+            combination_image = np.hstack((frame,text_show))
             cv2.imshow("Frame", combination_image)
 #            prediction_event =threading.Event()
             #print(prediction_event.isSet)
