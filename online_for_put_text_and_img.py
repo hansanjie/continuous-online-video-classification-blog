@@ -27,7 +27,17 @@ class global_var:
     global graph_def
     global fin
     global sess
+    global text_show
+    
+    global linetype
+    global font 
 
+    def init_all_varibles():
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        linetype=cv2.LINE_AA
+        the_output_messages = []
+        is_run_prediction = False
+        labels = get_labels()
 
 def get_labels():
     """Get a list of labels so we can see if it's an ad or not."""
@@ -63,9 +73,10 @@ def run_classification_from_cach_sess(frame):
     predicted_label = global_var.labels[max_index]
     # 在命令行打印识别到的信息
     print("%s (%.2f%%)" % (predicted_label, max_value * 100))
-
+    cv2.addText(global_var.text_show,messages,(10,10),global_var.font,color=(255,0,0),style=global_var.linetype)
     messages = [max_index, predicted_label, max_value]
     send_osc_message(messages)
+    
     # Reset the buffer so we're ready for the next one.
     print("预测结束了")
     # prediction_event.clear()
@@ -108,6 +119,7 @@ def run_classification(labels,frame):
         print("预测结束了")
         #prediction_event.clear()
         #is_run_prediction = False
+        cv2.putText(global_var.text_show,messages)
         global_var.the_output_messages=messages;
         global_var.is_run_prediction =False
 
@@ -120,14 +132,13 @@ def this_is_entrance():
         camera.vflip = True
         rawCapture = PiRGBArray(camera, size=(320, 240))
         time.sleep(0.1)
-        text_show =np.zeros((240,80,3),np.uint8)
+        global_var.text_show =np.zeros((240,120,3),np.uint8)
         #开启一个线程用于预测
 
         for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
             image = frame.array
-            print(image.shape,image.dtype)
-
-            combination_image = np.hstack((image,text_show))
+            #print(image.shape,image.dtype)
+            combination_image = np.hstack((image,global_var.text_show))
             cv2.imshow("combination_image", combination_image)
             #cv2.imshow("Frame2", text_show)
 #            prediction_event =threading.Event()
@@ -170,8 +181,6 @@ def send_osc_message(messages):
     client.send_message(osc_name, messages)
 
 if __name__ == '__main__':
-    global_var.the_output_messages = []
-    global_var.is_run_prediction = False
-    global_var.labels = get_labels()
+    global_var.init_all_varibles()
     get_sess()
     this_is_entrance()
