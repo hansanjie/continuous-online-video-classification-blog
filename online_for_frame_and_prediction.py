@@ -24,6 +24,10 @@ class global_var:
     global is_run_prediction
     global the_output_messages
     global labels
+    global graph_def
+    global fin
+    global sess
+
 
 def get_labels():
     """Get a list of labels so we can see if it's an ad or not."""
@@ -32,8 +36,45 @@ def get_labels():
         #print(labels)
     return labels
 
+def get_graph_def():
+    global_var.fin = tf.gfile.FastGFile('retrained_graph.pb', 'rb')
+    global_var.graph_def = tf.GraphDef()
+    global_var.graph_def.ParseFromString(global_var.fin.read())
+    _ = tf.import_graph_def(global_var.graph_def, name='')
+
+
+def get_sess():
+    get_graph_def()
+    global_var.sess = tf.Session()
+
+
+def run_classification_from_cach_sess(frame):
+    print("开始缓存测试")
+    softmax_tensor = global_var.sess.graph.get_tensor_by_name('final_result:0')
+    image = cv2.resize(frame.array, (224, 224))
+    decoded_image = image.reshape(1, 224, 224, 3)
+    predictions = global_var.sess.run(softmax_tensor, {'Placeholder:0': decoded_image})
+    prediction = predictions[0]
+
+    prediction = prediction.tolist()
+    max_value = max(prediction)
+    max_index = prediction.index(max_value)
+    predicted_label = labels[max_index]
+    # 在命令行打印识别到的信息
+    print("%s (%.2f%%)" % (predicted_label, max_value * 100))
+
+    messages = [max_index, predicted_label, max_value]
+    send_osc_message(messages)
+    # Reset the buffer so we're ready for the next one.
+    print("预测结束了")
+    # prediction_event.clear()
+    # is_run_prediction = False
+    global_var.the_output_messages = messages;
+    global_var.is_run_prediction = False
+
+
+
 def run_classification(labels,frame):
-    messages =[]
     print("1、运行到这里了，可喜可贺")
     # Unpersists graph from file
     with tf.gfile.FastGFile('retrained_graph.pb', 'rb') as fin:
@@ -49,6 +90,8 @@ def run_classification(labels,frame):
         decoded_image = image.reshape(1, 224, 224, 3)
         predictions = sess.run(softmax_tensor, {'Placeholder:0': decoded_image})
         prediction = predictions[0]
+
+
 
         # Get the highest confidence category.
         prediction = prediction.tolist()
@@ -85,10 +128,13 @@ def this_is_entrance():
             #print(prediction_event.isSet)
             if global_var.is_run_prediction is False:
                 print("尚未进行预测")
-                mthead = threading.Thread(target=frame_for_prediction,args=(frame,))
-                mthead.start()
+                #mthead = threading.Thread(target=frame_for_prediction,args=(frame,))
+                #mthead.start()
+                mthead2 = threading.Thread(target=run_classification_from_cach_sess,args=(frame,))
+                mthead2.start()
+###明天从这里开始
                 #mthead.join()
-            #判断mthread是否启动
+            #判断mthread是否启动  
             #判断mthread是否有返回值
             #如果没有，则重启一个线程
             #如果有启动，则将返回值打印到图像上
