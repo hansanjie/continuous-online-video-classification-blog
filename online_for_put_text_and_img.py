@@ -76,7 +76,7 @@ def run_classification_from_cach_sess(frame):
     messages = [max_index, predicted_label, max_value]
     #cv2.addText(global_var.text_show,predicted_label,(10,10),global_var.font,color=(255,0,0),style=global_var.linetype)
     #cv2.addText(global_var.text_show,predicted_label,(10,10),global_var.font)
-    cv2.putText(global_var.text_show,predicted_label,(10,100), global_var.font, 1,(255,255,255),2,cv2.LINE_AA)
+    cv2.putText(global_var.text_show,predicted_label,(10,10), global_var.font, 0.5,(255,255,255),2,cv2.LINE_AA)
 
     send_osc_message(messages)
     
