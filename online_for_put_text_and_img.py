@@ -81,7 +81,7 @@ def run_classification_from_cach_sess(frame):
     global_var.text_list.append(predicted_label)
     global_var.render_text_number += 1
     if global_var.render_text_number <19 :
-        cv2.putText(global_var.text_show,predicted_label,(20,12*number), global_var.font, 0.4,(255,255,255),1,cv2.LINE_AA)
+        cv2.putText(global_var.text_show,predicted_label,(20,12*global_var.render_text_number), global_var.font, 0.4,(255,255,255),1,cv2.LINE_AA)
     else:
         global_var.text_show =np.zeros((240,120,3),np.uint8)
 
