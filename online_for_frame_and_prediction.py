@@ -60,7 +60,7 @@ def run_classification_from_cach_sess(frame):
     prediction = prediction.tolist()
     max_value = max(prediction)
     max_index = prediction.index(max_value)
-    predicted_label = labels[max_index]
+    predicted_label = global_var.labels[max_index]
     # 在命令行打印识别到的信息
     print("%s (%.2f%%)" % (predicted_label, max_value * 100))
 
