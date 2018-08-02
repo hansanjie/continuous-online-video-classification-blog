@@ -50,6 +50,7 @@ def get_sess():
 
 def run_classification_from_cach_sess(frame):
     print("开始缓存测试")
+    global_var.is_run_prediction = True
     softmax_tensor = global_var.sess.graph.get_tensor_by_name('final_result:0')
     image = cv2.resize(frame.array, (224, 224))
     decoded_image = image.reshape(1, 224, 224, 3)
@@ -167,6 +168,7 @@ if __name__ == '__main__':
     global_var.the_output_messages = [] 
     global_var.is_run_prediction = False
     global_var.labels = get_labels()
+    get_sess()
     this_is_entrance()
     
 
