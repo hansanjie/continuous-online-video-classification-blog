@@ -31,6 +31,7 @@ class global_var:
     global render_text_number
     global linetype
     global font 
+    global text_list
 
     def init_all_varibles():
         global_var.font = cv2.FONT_HERSHEY_SIMPLEX
@@ -39,6 +40,8 @@ class global_var:
         global_var.is_run_prediction = False
         global_var.labels = get_labels()
         global_var.render_text_number = 0
+        global_var.text_list = []
+        global_var.text_show =np.zeros((240,120,3),np.uint8)
 
 def get_labels():
     """Get a list of labels so we can see if it's an ad or not."""
@@ -75,11 +78,16 @@ def run_classification_from_cach_sess(frame):
     # 在命令行打印识别到的信息
     print("%s (%.2f%%)" % (predicted_label, max_value * 100))
     messages = [max_index, predicted_label, max_value]
+    global_var.text_list.append(predicted_label)
     global_var.render_text_number += 1
-    number = global_var.render_text_number % 20
+    if global_var.render_text_number <19 :
+        cv2.putText(global_var.text_show,predicted_label,(20,12*number), global_var.font, 0.4,(255,255,255),1,cv2.LINE_AA)
+    else:
+        global_var.text_show =np.zeros((240,120,3),np.uint8)
+
     #cv2.addText(global_var.text_show,predicted_label,(10,10),global_var.font,color=(255,0,0),style=global_var.linetype)
     #cv2.addText(global_var.text_show,predicted_label,(10,10),global_var.font)
-    cv2.putText(global_var.text_show,predicted_label,(20,12*number), global_var.font, 0.4,(255,255,255),1,cv2.LINE_AA)
+    
 
     send_osc_message(messages)
     
@@ -138,7 +146,7 @@ def this_is_entrance():
         camera.vflip = True
         rawCapture = PiRGBArray(camera, size=(320, 240))
         time.sleep(0.1)
-        global_var.text_show =np.zeros((240,120,3),np.uint8)
+        
         #开启一个线程用于预测
 
         for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
