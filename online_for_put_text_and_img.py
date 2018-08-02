@@ -33,11 +33,11 @@ class global_var:
     global font 
 
     def init_all_varibles():
-        font = cv2.FONT_HERSHEY_SIMPLEX
-        linetype=cv2.LINE_AA
-        the_output_messages = []
-        is_run_prediction = False
-        labels = get_labels()
+        global_var.font = cv2.FONT_HERSHEY_SIMPLEX
+        global_var.linetype=cv2.LINE_AA
+        global_var.the_output_messages = []
+        global_var.is_run_prediction = False
+        global_var.labels = get_labels()
 
 def get_labels():
     """Get a list of labels so we can see if it's an ad or not."""
