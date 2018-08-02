@@ -120,7 +120,7 @@ def this_is_entrance():
         camera.vflip = True
         rawCapture = PiRGBArray(camera, size=(320, 240))
         time.sleep(0.1)
-        #text_show =np.zeros((240,320,3),np.uint8)
+        text_show =np.zeros((240,320,3),np.uint8)
         #开启一个线程用于预测
 
         for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
@@ -129,6 +129,7 @@ def this_is_entrance():
 
             #combination_image = np.hstack((frame,text_show))
             cv2.imshow("Frame", image)
+            cv2.imshow("Frame2", text_show)
 #            prediction_event =threading.Event()
             #print(prediction_event.isSet)
             if global_var.is_run_prediction is False:
